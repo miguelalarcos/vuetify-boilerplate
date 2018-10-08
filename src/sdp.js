@@ -11,12 +11,17 @@ export function connect(url, store) {
     ws = new WebSocket(url)
     rws.ws = ws
     ws.onopen = function() {
+        // eslint-disable-next-line
+        console.log('open')
         store.commit('SOCKET_ONOPEN')
     }
     ws.onerror = function() {
-
+        // eslint-disable-next-line
+        console.log('error')
     }
     ws.onclose = function() {
+        // eslint-disable-next-line
+        console.log('close')
         store.commit('SOCKET_ONCLOSE')
         Object.values(deferreds).forEach(d => d.reject())
         deferreds = {}
@@ -24,6 +29,8 @@ export function connect(url, store) {
     }
     ws.onmessage = function(event) {
         const data = JSON.parse(event.data)
+        // eslint-disable-next-line
+        console.log('>>', data)
         if (data.msg === 'result') {
             const deferred = deferreds[data.id]
             deferred.resolve(data.result)
