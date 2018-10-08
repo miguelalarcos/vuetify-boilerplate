@@ -1,7 +1,12 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div v-if="connected">
+      <HelloWorld msg="Hola ;)"/>
+    </div>
+    <div v-else>
+      <span>connecting...</span>    
+    </div>
   </div>
 </template>
 
@@ -13,6 +18,11 @@ export default {
   name: 'home',
   components: {
     HelloWorld
+  },
+  computed: {
+    connected(){
+      return this.$store.state.sdp.isConnected
+    }
   }
 }
 </script>
