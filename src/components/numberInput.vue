@@ -1,8 +1,6 @@
 <template>
     <div>
-        <md-field>
-            <md-input ref="input" :value="value"></md-input>            
-        </md-field>
+        <v-text-field label="number" ref="input" :value="value"></v-text-field>
         <div class="green">{{ saved }}</div>
     </div>
 </template>

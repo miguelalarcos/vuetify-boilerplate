@@ -1,23 +1,24 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
+//import axios from 'axios'
 import { moduleSocket } from './sdp'
 
 Vue.use(Vuex)
 
-const config = {
+/*const config = {
   headers: {
     Authorization: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibWlndWVsIn0.XnBRt8Lo5aG0UjWWgPi683fgWi3yBNh4gZVh9YW-9Fg',
   } 
 }
-const api = process.env.NODE_ENV === 'production' ? 'http://756d1119-c231-4419-aa2e-733226de1c62.clouding.host:8089/car' : 'http://localhost:8089/car'
-
+const api = process.env.NODE_ENV === 'production' ? 'http://756d1119-c231-4419-aa2e-733226de1c62.clouding.host:8089/' : 'http://localhost:8089/'
+*/
 export default new Vuex.Store({
   modules: {
     sdp: moduleSocket,
   },
   state: {
     jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibWlndWVsIn0.XnBRt8Lo5aG0UjWWgPi683fgWi3yBNh4gZVh9YW-9Fg',
+    result: '',
     form: {
       age: 0
     },
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setResult(state, {result}){
+      state.result = result
+    },
     setError(state, payload){
       state.errors = {...state.errors, age: payload}
     },
@@ -34,10 +38,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // eslint-disable-next-line
-    async post (context) {
+    async post ({commit}) {
       //context.commit('increment')
-      await axios.post(api, 
+      const result = await axios.post(api + 'car', 
         {
         "name": "miguelito",
         "contact": {
@@ -45,7 +48,8 @@ export default new Vuex.Store({
           }
         },
         config
-      )  
+      )
+      commit('setResult', {result})  
     }
   }
 })
